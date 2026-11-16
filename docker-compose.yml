@@ -1,0 +1,29 @@
+services:
+  mesh-map:
+    build: .
+    ports:
+      - "8765:8765"
+    environment:
+      MESHMAP_PROVIDER: mock
+      MESHMAP_INTERVAL: "5"
+    volumes:
+      - meshmap-data:/data
+    restart: unless-stopped
+
+  # Реальный режим: нужен доступ к `tailscale status` внутри контейнера.
+  # Раскомментируй, если хочешь видеть настоящие direct/DERP-пути.
+  #
+  # mesh-map-live:
+  #   build: .
+  #   network_mode: host
+  #   environment:
+  #     MESHMAP_PROVIDER: tailscale
+  #     MESHMAP_INTERVAL: "10"
+  #   volumes:
+  #     - meshmap-data:/data
+  #     - /var/run/tailscale:/var/run/tailscale
+  #     # Windows/macOS: путь к сокету Tailscale зависит от платформы
+  #   restart: unless-stopped
+
+volumes:
+  meshmap-data:

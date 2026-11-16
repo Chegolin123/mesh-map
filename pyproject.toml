@@ -1,0 +1,38 @@
+[project]
+name = "mesh-map"
+version = "0.1.0"
+description = "Живая карта Tailscale-сети: узлы, прямые пути и DERP-реле, история деградаций"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.29",
+    "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[project.scripts]
+mesh-map = "meshmap.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["meshmap*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"meshmap/templates.py" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
